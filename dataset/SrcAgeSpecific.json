@@ -1,5 +1,5 @@
 {
-	"name": "SrcNotificationRate",
+	"name": "SrcAgeSpecific",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "localfile",

@@ -6,34 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "formationazuredfisl"
-		},
-		"localfile_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'localfile'"
-		},
-		"CnxDataLake_properties_typeProperties_dataLakeStoreUri": {
-			"type": "string",
-			"defaultValue": "https://formationazureisl.azuredatalakestore.net/webhdfs/v1"
-		},
-		"CnxDataLake_properties_typeProperties_tenant": {
-			"type": "string",
-			"defaultValue": "544fe47f-5772-488f-81a9-fa9de607ecfa"
-		},
-		"CnxDataLake_properties_typeProperties_subscriptionId": {
-			"type": "string",
-			"defaultValue": "32ad602f-d364-45c5-ab7f-b8e199af2da0"
-		},
-		"CnxDataLake_properties_typeProperties_resourceGroupName": {
-			"type": "string",
-			"defaultValue": "rg-BDU_EcoleDeLaData"
-		},
-		"localfile_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "C:/Users/iezzine/Documents/Ecole de la data/Azure/donnees_covid"
-		},
-		"localfile_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "BETD\\iezzine"
 		}
 	},
 	"variables": {
@@ -99,9 +71,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SrcDailySubNational')]",
@@ -154,9 +124,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SrcHospital')]",
@@ -213,9 +181,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SrcResponseCountry')]",
@@ -260,9 +226,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SrcTesting')]",
@@ -327,9 +291,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/TarAgeSpecific')]",
@@ -357,9 +319,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/TarDailySubNational')]",
@@ -387,9 +347,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/TarHospital')]",
@@ -417,9 +375,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/TarResponseCountry')]",
@@ -447,9 +403,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/TarTesting')]",
@@ -476,65 +430,6 @@
 					"quoteChar": "\""
 				},
 				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CnxDataLake')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDataLakeStore",
-				"typeProperties": {
-					"dataLakeStoreUri": "[parameters('CnxDataLake_properties_typeProperties_dataLakeStoreUri')]",
-					"tenant": "[parameters('CnxDataLake_properties_typeProperties_tenant')]",
-					"subscriptionId": "[parameters('CnxDataLake_properties_typeProperties_subscriptionId')]",
-					"resourceGroupName": "[parameters('CnxDataLake_properties_typeProperties_resourceGroupName')]"
-				},
-				"connectVia": {
-					"referenceName": "MyLocalFiles",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/MyLocalFiles')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/localfile')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "data lake",
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('localfile_properties_typeProperties_host')]",
-					"userId": "[parameters('localfile_properties_typeProperties_userId')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('localfile_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "MyLocalFiles",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/MyLocalFiles')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MyLocalFiles')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
 			},
 			"dependsOn": []
 		}

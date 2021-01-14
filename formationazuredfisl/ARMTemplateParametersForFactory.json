@@ -8,12 +8,6 @@
 		"localfile_password": {
 			"value": ""
 		},
-		"localfile_properties_typeProperties_host": {
-			"value": "C:/Users/iezzine/Documents/Ecole de la data/Azure/donnees_covid"
-		},
-		"localfile_properties_typeProperties_userId": {
-			"value": "BETD\\iezzine"
-		},
 		"CnxDataLake_properties_typeProperties_dataLakeStoreUri": {
 			"value": "https://formationazureisl.azuredatalakestore.net/webhdfs/v1"
 		},
@@ -25,6 +19,12 @@
 		},
 		"CnxDataLake_properties_typeProperties_resourceGroupName": {
 			"value": "rg-BDU_EcoleDeLaData"
+		},
+		"localfile_properties_typeProperties_host": {
+			"value": "C:/Users/iezzine/Documents/Ecole de la data/Azure/donnees_covid"
+		},
+		"localfile_properties_typeProperties_userId": {
+			"value": "BETD\\iezzine"
 		}
 	}
 }

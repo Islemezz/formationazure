@@ -5,6 +5,11 @@
 			"referenceName": "CnxDataLake",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"ContainerName": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "Destination"
 		},

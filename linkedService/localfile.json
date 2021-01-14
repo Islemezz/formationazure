@@ -12,6 +12,7 @@
 		"connectVia": {
 			"referenceName": "MyLocalFiles",
 			"type": "IntegrationRuntimeReference"
-		}
+		},
+		"description": "data lake"
 	}
 }

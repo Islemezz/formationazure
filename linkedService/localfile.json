@@ -1,0 +1,17 @@
+{
+	"name": "localfile",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:/Users/iezzine/Documents/Ecole de la data/Azure/donnees_covid",
+			"userId": "BETD\\iezzine",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkODYwYjY2OC0yZjJmLTQ5ODUtYmUwNS0zYWZlOWZiZWViYzciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "MyLocalFiles",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

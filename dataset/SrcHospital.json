@@ -5,6 +5,9 @@
 			"referenceName": "localfile",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Sourcess"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {

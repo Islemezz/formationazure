@@ -1,15 +1,9 @@
 {
-	"name": "TarAgeSpecific",
+	"name": "TarDeath",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "CnxDataLake",
 			"type": "LinkedServiceReference"
-		},
-		"parameters": {
-			"ContainerName": {
-				"type": "string",
-				"defaultValue": "raw/europe"
-			}
 		},
 		"folder": {
 			"name": "Destination"
@@ -18,7 +12,8 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureDataLakeStoreLocation"
+				"type": "AzureDataLakeStoreLocation",
+				"folderPath": "rawdata/johnhopkins"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

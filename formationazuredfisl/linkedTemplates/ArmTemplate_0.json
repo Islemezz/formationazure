@@ -161,6 +161,69 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SrcConfirmed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "localfile",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Sourcess"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "time_series_19-covid-Confirmed_archived_0325.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "country_code",
+						"type": "String"
+					},
+					{
+						"name": "year_week",
+						"type": "String"
+					},
+					{
+						"name": "age_group",
+						"type": "String"
+					},
+					{
+						"name": "new_cases",
+						"type": "String"
+					},
+					{
+						"name": "population",
+						"type": "String"
+					},
+					{
+						"name": "rate_14_day_per_100k",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SrcDailySubNational')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -199,6 +262,69 @@
 					},
 					{
 						"name": "date",
+						"type": "String"
+					},
+					{
+						"name": "rate_14_day_per_100k",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SrcDeath')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "localfile",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Sourcess"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "time_series_19-covid-Deaths_archived_0325.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "country_code",
+						"type": "String"
+					},
+					{
+						"name": "year_week",
+						"type": "String"
+					},
+					{
+						"name": "age_group",
+						"type": "String"
+					},
+					{
+						"name": "new_cases",
+						"type": "String"
+					},
+					{
+						"name": "population",
 						"type": "String"
 					},
 					{
@@ -266,6 +392,69 @@
 					},
 					{
 						"name": "url",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SrcRecovered')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "localfile",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Sourcess"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "time_series_19-covid-Recovered_archived_0325.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "country_code",
+						"type": "String"
+					},
+					{
+						"name": "year_week",
+						"type": "String"
+					},
+					{
+						"name": "age_group",
+						"type": "String"
+					},
+					{
+						"name": "new_cases",
+						"type": "String"
+					},
+					{
+						"name": "population",
+						"type": "String"
+					},
+					{
+						"name": "rate_14_day_per_100k",
+						"type": "String"
+					},
+					{
+						"name": "source",
 						"type": "String"
 					}
 				]
@@ -397,6 +586,41 @@
 					"referenceName": "CnxDataLake",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"ContainerName": {
+						"type": "string",
+						"defaultValue": "raw/europe"
+					}
+				},
+				"folder": {
+					"name": "Destination"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TarConfirmed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CnxDataLake",
+					"type": "LinkedServiceReference"
+				},
 				"folder": {
 					"name": "Destination"
 				},
@@ -405,7 +629,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
+						"folderPath": "rawdata/johnhopkins"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -449,6 +673,36 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/TarDeath')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CnxDataLake",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Destination"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"folderPath": "rawdata/johnhopkins"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TarHospital')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -466,6 +720,36 @@
 					"location": {
 						"type": "AzureDataLakeStoreLocation",
 						"folderPath": "rawdata/europe"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/CnxDataLake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TarRecovered')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CnxDataLake",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Destination"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"folderPath": "rawdata/johnhopkins"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -839,7 +1123,9 @@
 							{
 								"referenceName": "TarAgeSpecific",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"ContainerName": "raw/europe"
+								}
 							}
 						]
 					},
@@ -1304,38 +1590,6 @@
 				"[concat(variables('factoryId'), '/datasets/TarResponseCountry')]",
 				"[concat(variables('factoryId'), '/datasets/SrcTesting')]",
 				"[concat(variables('factoryId'), '/datasets/TarTesting')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Data ingestion",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2021-01-14T16:46:00",
-						"endTime": "2021-01-14T20:00:00",
-						"timeZone": "Romance Standard Time",
-						"schedule": {}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Data ingestion')]"
 			]
 		}
 	]

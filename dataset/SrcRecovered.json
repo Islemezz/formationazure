@@ -1,0 +1,58 @@
+{
+	"name": "SrcRecovered",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "localfile",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Sourcess"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "time_series_19-covid-Recovered_archived_0325.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "country",
+				"type": "String"
+			},
+			{
+				"name": "country_code",
+				"type": "String"
+			},
+			{
+				"name": "year_week",
+				"type": "String"
+			},
+			{
+				"name": "age_group",
+				"type": "String"
+			},
+			{
+				"name": "new_cases",
+				"type": "String"
+			},
+			{
+				"name": "population",
+				"type": "String"
+			},
+			{
+				"name": "rate_14_day_per_100k",
+				"type": "String"
+			},
+			{
+				"name": "source",
+				"type": "String"
+			}
+		]
+	}
+}

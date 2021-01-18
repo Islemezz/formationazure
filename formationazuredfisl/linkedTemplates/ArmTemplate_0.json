@@ -98,7 +98,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SrcAgeSpecific')]",
+			"name": "[concat(parameters('factoryName'), '/EmploiParActivite')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -107,14 +107,15 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Sourcess"
+					"name": "MyHealth/Sources"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "FileServerLocation",
-						"fileName": "Data on the 14-day age-specific notification rate of new COVID-19 cases.csv"
+						"fileName": "ALFS_EMP_EmploiParActivité.csv",
+						"folderPath": "MyHealth"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -763,7 +764,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TarResponseCountry')]",
+			"name": "[concat(parameters('factoryName'), '/TarEmploiParActivite')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -772,14 +773,14 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Destination"
+					"name": "MyHealth/Destination"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "rawdata/europe"
+						"folderPath": "health/rowdata"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -823,773 +824,67 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Data ingestion')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/PerspectivesEconomiques')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
+				"linkedServiceName": {
+					"referenceName": "localfile",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "MyHealth/Sources"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "EO_PerspectivesEconomiques.csv",
+						"folderPath": "MyHealth"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
 					{
-						"name": "CopyDailySubNational",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureDataLakeStoreWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "region_name",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "region_name",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "nuts_code",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "nuts_code",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "date",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "date",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "rate_14_day_per_100k",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "rate_14_day_per_100k",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "source",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "source",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SrcDailySubNational",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "TarDailySubNational",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "country",
+						"type": "String"
 					},
 					{
-						"name": "CopyAgeSpecific",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "CopyDailySubNational",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureDataLakeStoreWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "country_code",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "country_code",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "year_week",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "year_week",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "age_group",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "age_group",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "new_cases",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "new_cases",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "population",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "population",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "rate_14_day_per_100k",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "rate_14_day_per_100k",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "source",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "source",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SrcAgeSpecific",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "TarAgeSpecific",
-								"type": "DatasetReference",
-								"parameters": {
-									"ContainerName": "raw/europe"
-								}
-							}
-						]
+						"name": "country_code",
+						"type": "String"
 					},
 					{
-						"name": "CopyHospital",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "CopyAgeSpecific",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureDataLakeStoreWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "indicator",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "indicator",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "date",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "date",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "year_week",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "year_week",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "value",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "value",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "source",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "source",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "url",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "url",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SrcHospital",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "TarHospital",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "year_week",
+						"type": "String"
 					},
 					{
-						"name": "CopyResponseCountry",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "CopyHospital",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureDataLakeStoreWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Country",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Response_measure",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Response_measure",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "date_start",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "date_start",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "date_end",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "date_end",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SrcResponseCountry",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "TarResponseCountry",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "age_group",
+						"type": "String"
 					},
 					{
-						"name": "CopyTesting",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "CopyResponseCountry",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureDataLakeStoreWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "country",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "country_code",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "country_code",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "year_week",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "year_week",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "new_cases",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "new_cases",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tests_done",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "tests_done",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "population",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "population",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "testing_rate",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "testing_rate",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "positivity_rate",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "positivity_rate",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "testing_data_source",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "testing_data_source",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SrcTesting",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "TarTesting",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "new_cases",
+						"type": "String"
+					},
+					{
+						"name": "population",
+						"type": "String"
+					},
+					{
+						"name": "rate_14_day_per_100k",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
 					}
-				],
-				"annotations": []
+				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SrcDailySubNational')]",
-				"[concat(variables('factoryId'), '/datasets/TarDailySubNational')]",
-				"[concat(variables('factoryId'), '/datasets/SrcAgeSpecific')]",
-				"[concat(variables('factoryId'), '/datasets/TarAgeSpecific')]",
-				"[concat(variables('factoryId'), '/datasets/SrcHospital')]",
-				"[concat(variables('factoryId'), '/datasets/TarHospital')]",
-				"[concat(variables('factoryId'), '/datasets/SrcResponseCountry')]",
-				"[concat(variables('factoryId'), '/datasets/TarResponseCountry')]",
-				"[concat(variables('factoryId'), '/datasets/SrcTesting')]",
-				"[concat(variables('factoryId'), '/datasets/TarTesting')]"
+				"[concat(variables('factoryId'), '/linkedServices/localfile')]"
 			]
 		}
 	]

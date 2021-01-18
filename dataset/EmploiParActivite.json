@@ -1,19 +1,20 @@
 {
-	"name": "SrcAgeSpecific",
+	"name": "EmploiParActivite",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "localfile",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Sourcess"
+			"name": "MyHealth/Sources"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": "Data on the 14-day age-specific notification rate of new COVID-19 cases.csv"
+				"fileName": "ALFS_EMP_EmploiParActivité.csv",
+				"folderPath": "MyHealth"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

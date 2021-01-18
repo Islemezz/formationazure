@@ -1,0 +1,25 @@
+{
+	"name": "TarProjectionPopulation",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CnxDataLake",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MyHealth/Destination"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureDataLakeStoreLocation",
+				"folderPath": "health/rowdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

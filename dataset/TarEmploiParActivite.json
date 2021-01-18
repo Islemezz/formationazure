@@ -1,5 +1,5 @@
 {
-	"name": "TarResponseCountry",
+	"name": "TarEmploiParActivite",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "CnxDataLake",
@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureDataLakeStoreLocation",
-				"folderPath": "rawdata/europe"
+				"folderPath": "health/rowdata"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
